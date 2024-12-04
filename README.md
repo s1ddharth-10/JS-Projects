@@ -1,7 +1,9 @@
 ```markdown
 # BMI Calculator
 
-A simple and user-friendly BMI (Body Mass Index) Calculator built with JavaScript, HTML, and CSS. This application allows users to input their weight and height to calculate their BMI and determine their weight category.
+A simple and user-friendly BMI (Body Mass Index) Calculator built with JavaScript, HTML, and CSS.
+This application allows users to input their weight and height
+to calculate their BMI and determine their weight category.
 
 ## Table of Contents
 
