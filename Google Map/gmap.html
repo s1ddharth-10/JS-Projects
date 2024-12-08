@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center; 
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Ensure padding doesn't affect input width */
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #map {
+            display: none;
+            height: 400px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <div id="map"></div>
+</div>
+
+<script>
+    // Array to hold valid credentials
+    const validCredentials = [
+        { username: "admin", password: "password" },
+        { username: "user1", password: "pass1" },
+        { username: "user2", password: "pass2" },
+        { username: "user3", password: "pass3" },
+        { username: "user4", password: "pass4" }
+    ];
+
+    // Function to simulate login
+    function login() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        // Check if the entered credentials match any in the validCredentials array
+        const isValidUser = validCredentials.some(user => 
+            user.username === username && user.password === password
+        );
+
+        if (isValidUser) {
+            getLocation();
+        } else {
+            alert("Invalid credentials");
+        }
+    }
+
+    // Function to get user's current location
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Function to show the user's location on Google Maps
+    function showPosition(position) {
+        var lat = position.coords.latitude;
+        var lng = position.coords.longitude;
+        var mapDiv = document.getElementById('map');
+        mapDiv.style.display = 'block';
+
+        var map = new google.maps.Map(mapDiv, {
+            center: {lat: lat, lng: lng},
+            zoom: 15
+        });
+
+        var marker = new google.maps.Marker({
+            position: {lat: lat, lng: lng},
+            map: map,
+            title: 'You are here!'
+        });
+    }
+
+    // Errors when getting location
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Couldn't load location info.");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+        }
+    }
+</script>
+
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPQTpD3wN7zpV_Atn3RP7uMmozj9yTkLY"></script>
+
+</body>
+</html>
